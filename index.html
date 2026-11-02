@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ЕкоСлід Пам'яті</title>
+  <meta name="description" content="Екологічний вплив традиційних поховань і сучасних альтернатив: калькулятор вуглецевого сліду, симулятор і методологія з джерелами.">
+  <meta name="theme-color" content="#f4f5f0">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#calc">До калькулятора</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="#top" class="logo" aria-label="ЕкоСлід Пам'яті, на початок">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 21c0-6 0-9 0-11M12 10c-4 0-6-3-6-7 4 0 6 3 6 7Zm0 3c3 0 6-2 6-6-3 0-6 2-6 6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>ЕкоСлід Пам'яті</span>
+      </a>
+      <nav class="nav" aria-label="Розділи">
+        <a href="#calc">Калькулятор</a>
+        <a href="#why">Чому це важливо</a>
+        <a href="#myths">Міфи</a>
+        <a href="#method">Методологія</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="eyebrow">Просвітницький проєкт</p>
+      <h1>Який слід лишає прощання?</h1>
+      <p class="lead">Порівняйте викиди CO<sub>2</sub>, витрати ресурсів і землю, яку займають різні способи поховання. Лише дані з відкритих досліджень, з діапазонами та позначеними припущеннями.</p>
+      <a class="btn" href="#calc">Відкрити калькулятор</a>
+    </section>
+
+    <section id="calc" class="section wrap" aria-labelledby="calc-title">
+      <h2 id="calc-title">Калькулятор «Вуглецевий слід прощання»</h2>
+      <p class="muted">Оберіть сценарій. Результати оновлюються одразу.</p>
+
+      <div class="calc-grid">
+        <div class="panel controls">
+          <fieldset>
+            <legend>Тип прощання</legend>
+            <div class="options" id="scenario-options" role="radiogroup"></div>
+          </fieldset>
+
+          <div class="field">
+            <label for="count">Кількість прощань <output id="count-out">1</output></label>
+            <input type="range" id="count" min="0" max="4" step="1" value="0" aria-describedby="count-hint">
+            <p class="hint" id="count-hint">Масштаб: від однієї людини до 10 000 (приблизно невелике місто за рік).</p>
+          </div>
+
+          <div class="field">
+            <label for="years">Горизонт оцінки землі <output id="years-out">25 років</output></label>
+            <input type="range" id="years" min="10" max="50" step="5" value="25">
+          </div>
+        </div>
+
+        <div class="results" aria-live="polite">
+          <div class="panel result co2">
+            <h3>Викиди CO<sub>2</sub>e</h3>
+            <p class="big"><span id="co2-range">—</span> <span class="unit">кг</span></p>
+            <div class="rangebar" aria-hidden="true"><span id="co2-bar"></span></div>
+            <ul class="basis" id="co2-basis"></ul>
+          </div>
+
+          <div class="panel result">
+            <h3>Ресурси</h3>
+            <ul class="res-list" id="res-list"></ul>
+          </div>
+
+          <div class="panel result">
+            <h3>Земля</h3>
+            <p class="big"><span id="land-m2">—</span> <span class="unit">м²</span></p>
+            <p class="land-state" id="land-state"></p>
+            <p class="muted small" id="land-years"></p>
+          </div>
+        </div>
+
+        <figure class="panel sim" aria-labelledby="sim-cap">
+          <svg id="sim" viewBox="0 0 360 220" role="img" aria-labelledby="sim-title sim-desc">
+            <title id="sim-title">Схема ділянки</title>
+            <desc id="sim-desc"></desc>
+          </svg>
+          <figcaption id="sim-cap"><strong id="sim-name"></strong><span id="sim-text"></span><span class="muted small">Схема ілюстративна, не в масштабі.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="panel compare">
+        <h3>Порівняння всіх сценаріїв, кг CO<sub>2</sub>e на одне прощання</h3>
+        <div id="compare-chart" class="compare-chart"></div>
+        <p class="muted small">Смуга показує діапазон між джерелами. Нижче нуля: кредит за переробку металів у моделі TNO.</p>
+      </div>
+    </section>
+
+    <section id="why" class="section wrap" aria-labelledby="why-title">
+      <h2 id="why-title">Чому це важливо?</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="stat">1,6 млн т</p>
+          <p>бетону щороку йде на поховання у США. Також 64 500 т сталі, ≈20 млн дошкових футів твердої деревини та ≈16 млн л бальзамувальної рідини.</p>
+          <a class="src" href="https://www.greenburialcouncil.org/press/" target="_blank" rel="noopener">GBC / M. Woodsen</a>
+        </article>
+        <article class="card">
+          <p class="stat">37,5 років</p>
+          <p>середній строк, протягом якого могила займає землю в Нідерландах. Добування каменю для надгробків дає найбільшу частку викидів поховання.</p>
+          <a class="src" href="https://publications.tno.nl/publication/34626369/bSOHo4/TNO-060-UT-2011-01366-2.pdf" target="_blank" rel="noopener">TNO, 2011</a>
+        </article>
+        <article class="card">
+          <p class="stat">до 400 кг</p>
+          <p>CO<sub>2</sub>e може становити повний слід одного похорону у Великій Британії з урахуванням усіх етапів, а не лише самого поховання.</p>
+          <a class="src" href="https://www.planetmark.com/wp-content/uploads/2023/08/Funeral-Report-Industry-Professionals.pdf" target="_blank" rel="noopener">Planet Mark, 2023</a>
+        </article>
+        <article class="card">
+          <p class="stat">≈10 т CO<sub>2</sub></p>
+          <p>на акр може поглинати природне кладовище-заповідник після заростання лісом (оцінка авторів звіту, залежить від ділянки).</p>
+          <a class="src" href="https://www.greenburialcouncil.org/uploads/1/2/4/2/124231485/carbon_benefits_of_conservation_burial.pdf" target="_blank" rel="noopener">GBC, 2023</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="myths" class="section wrap" aria-labelledby="myths-title">
+      <h2 id="myths-title">Міфи і факти</h2>
+      <div class="myths">
+        <details>
+          <summary>«Кремація завжди найекологічніший вибір»</summary>
+          <p>Кремація дає менше викидів, ніж поховання з бетонним склепом, але залишається енергоємною: 80–126 кг CO<sub>2</sub>e на одну процедуру. Природне поховання (до 13 кг) і аквамація (від −32 до 20 кг) мають нижчий слід. <span class="src-inline">Джерела: TNO 2011, Planet Mark 2023.</span></p>
+        </details>
+        <details>
+          <summary>«Прах є добривом для дерева»</summary>
+          <p>Прах має високий лужний pH і багато натрію. Це пригнічує засвоєння поживних речовин рослинами, тому біо-урни потребують спеціального нейтралізуючого субстрату. <span class="src-inline">Джерело: Gardening Know How.</span></p>
+        </details>
+        <details>
+          <summary>«Аквамація означає розчинення в кислоті»</summary>
+          <p>Процес лужний, а не кислотний: тіло розкладається у воді з лугом при нагріванні (лужний гідроліз). Залишається кістковий мінерал, який повертають родині. <span class="src-inline">Джерело: Planet Mark 2023.</span></p>
+        </details>
+        <details>
+          <summary>«Компостування людини не дає жодних викидів»</summary>
+          <p>Компанія Recompose заявляє ≈20 кг CO<sub>2</sub>e на тіло, але формула закрита. Незалежна оцінка Green Burial Council враховує метан, N<sub>2</sub>O і транспорт: до ≈250 кг. Реальне значення поки невизначене. <span class="src-inline">Джерела: GBC 2023, MIT Technology Review 2020.</span></p>
+        </details>
+        <details>
+          <summary>«Природне поховання забирає землю так само, як звичайне»</summary>
+          <p>Площа ділянки подібна, але земля не запечатується бетоном і каменем: вона лишається лугом або лісом, тобто працює як екосистема. <span class="src-inline">Джерело: GBC 2023.</span></p>
+        </details>
+      </div>
+    </section>
+
+    <section id="method" class="section wrap" aria-labelledby="method-title">
+      <h2 id="method-title">Методологія розрахунків</h2>
+      <p>Калькулятор показує не одне «точне» число, а <strong>діапазон між опублікованими оцінками</strong>. Дослідження мають різні межі систем (країна, енергетичний мікс, що входить у розрахунок), тому пряме порівняння приблизне.</p>
+      <div class="table-wrap">
+        <table class="method-table">
+          <thead><tr><th scope="col">Сценарій</th><th scope="col">CO<sub>2</sub>e, кг</th><th scope="col">Основа розрахунку</th></tr></thead>
+          <tbody id="method-body"></tbody>
+        </table>
+      </div>
+
+      <h3>Припущення моделі</h3>
+      <ul class="assumptions" id="assumptions"></ul>
+
+      <h3>Обмеження</h3>
+      <ul class="assumptions">
+        <li>Не враховано транспорт, квіти, церемонію, догляд за могилою.</li>
+        <li>Даних для України в опублікованих LCA немає; використано дані Нідерландів, Великої Британії та США.</li>
+        <li>Доступність аквамації та компостування залежить від законодавства країни. Перевіряйте місцеві норми.</li>
+      </ul>
+
+      <h3>Джерела</h3>
+      <ol class="sources" id="sources"></ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>ЕкоСлід Пам'яті · MVP · Дані мають просвітницький характер і не є консультацією.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
