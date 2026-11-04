@@ -27,6 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Onest:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preload" href="/img/sprite.svg" as="image" type="image/svg+xml">
 
   <script>
     (function () { try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
@@ -218,7 +219,7 @@
             </div>
 
             <div class="card result co2">
-              <h3>Викиди <button type="button" class="term" aria-expanded="false" aria-controls="co2e-tip">CO₂e</button></h3>
+              <h3><svg class="h-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-cloud"/></svg>Викиди <button type="button" class="term" aria-expanded="false" aria-controls="co2e-tip">CO₂e</button></h3>
               <p class="tip" id="co2e-tip" hidden>CO₂-еквівалент: усі парникові гази, перераховані на CO₂ за їхнім впливом на клімат.</p>
               <p class="big"><span id="co2-range">—</span> <span class="unit" id="co2-unit">кг</span></p>
               <div class="rangebar" aria-hidden="true"><span id="co2-bar"></span></div>
@@ -226,12 +227,12 @@
             </div>
 
             <div class="card result">
-              <h3>Ресурси</h3>
+              <h3><svg class="h-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-brick"/></svg>Ресурси</h3>
               <ul class="res-list" id="res-list"></ul>
             </div>
 
             <div class="card result">
-              <h3>Земля</h3>
+              <h3><svg class="h-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-seedling"/></svg>Земля</h3>
               <p class="big"><span id="land-m2">—</span> <span class="unit">м²</span></p>
               <p class="land-state" id="land-state"></p>
               <p class="muted small" id="land-years"></p>
@@ -262,21 +263,25 @@
         <h2 id="why-title">Чому це важливо?</h2>
         <div class="stats">
           <article class="stat-card reveal">
+            <svg class="stat-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-brick"/></svg>
             <p class="stat" data-count="1.6" data-dec="1">1,6</p><p class="stat-unit">млн т бетону</p>
             <p>щороку йде на поховання у США. Також 64 500 т сталі й ≈16 млн л бальзамувальної рідини.</p>
             <a class="src" href="https://www.greenburialcouncil.org/press/" target="_blank" rel="noopener">GBC / M. Woodsen</a>
           </article>
           <article class="stat-card reveal">
+            <svg class="stat-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-hourglass-done"/></svg>
             <p class="stat" data-count="37.5" data-dec="1">37,5</p><p class="stat-unit">років</p>
             <p>у середньому могила займає землю в Нідерландах. Найбільшу частку викидів поховання дає камінь для надгробків.</p>
             <a class="src" href="https://publications.tno.nl/publication/34626369/bSOHo4/TNO-060-UT-2011-01366-2.pdf" target="_blank" rel="noopener">TNO, 2011</a>
           </article>
           <article class="stat-card reveal">
+            <svg class="stat-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-cloud"/></svg>
             <p class="stat" data-count="400" data-dec="0">400</p><p class="stat-unit">кг CO₂e</p>
             <p>може сягати повний слід одного похорону у Великій Британії з урахуванням усіх етапів, а не лише самого поховання.</p>
             <a class="src" href="https://www.planetmark.com/wp-content/uploads/2023/08/Funeral-Report-Industry-Professionals.pdf" target="_blank" rel="noopener">Planet Mark, 2023</a>
           </article>
           <article class="stat-card reveal">
+            <svg class="stat-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-evergreen-tree"/></svg>
             <p class="stat" data-count="10" data-dec="0">10</p><p class="stat-unit">т CO₂ на акр</p>
             <p>може поглинати заповідне природне кладовище після заростання лісом. Це оцінка авторів звіту, і вона залежить від ділянки.</p>
             <a class="src" href="https://www.greenburialcouncil.org/uploads/1/2/4/2/124231485/carbon_benefits_of_conservation_burial.pdf" target="_blank" rel="noopener">GBC, 2023</a>
@@ -291,8 +296,10 @@
         <p class="eyebrow">Перевірте себе</p>
         <h2 id="quiz-title">Правда чи міф?</h2>
         <p class="muted">7 тверджень. Після кожної відповіді ви побачите пояснення та джерело.</p>
+        <div class="quiz-wrap"><svg class="deco deco-quiz" aria-hidden="true"><use href="/img/sprite.svg#fe-leaf-fluttering-in-wind"/></svg>
         <div class="quiz card" id="quiz-box">
           <noscript><p>Для квізу потрібен JavaScript. Пояснення є в розділі «Методологія».</p></noscript>
+        </div>
         </div>
       </div>
     </section>
@@ -304,14 +311,17 @@
         <h2 id="next-title">Як використати ці знання</h2>
         <div class="next-grid">
           <article class="card next-card reveal">
+            <svg class="next-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-speech-balloon"/></svg>
             <h3>Поговоріть із близькими</h3>
             <p>Розмова про прощання заздалегідь знімає тягар рішень із рідних. Почніть із питання: «Що для тебе важливо, щоб тебе пам'ятали?»</p>
           </article>
           <article class="card next-card reveal">
+            <svg class="next-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-balance-scale"/></svg>
             <h3>Перевірте місцеві правила</h3>
             <p>Не всі методи доступні в кожній країні. Уточніть у місцевій ритуальній службі або в юриста, що дозволено там, де ви живете.</p>
           </article>
           <article class="card next-card reveal">
+            <svg class="next-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-megaphone"/></svg>
             <h3>Поділіться фактом</h3>
             <p>Один перевірений факт у стрічці робить більше, ніж десяток гучних заголовків.</p>
             <button type="button" class="btn btn-ghost-dark" data-share>Поділитися сайтом</button>
@@ -387,6 +397,7 @@
     <section id="about" class="section dark" aria-labelledby="about-title">
       <div class="wrap narrow">
         <p class="eyebrow">Про проєкт</p>
+        <svg class="about-ic" aria-hidden="true"><use href="/img/sprite.svg#fe-dove"/></svg>
         <h2 id="about-title">Чесно про останній слід</h2>
         <p>«ЕкоСлід Пам'яті» є незалежним просвітницьким проєктом. Ми показуємо, як різні способи прощання впливають на клімат, ресурси та землю, і робимо це спокійно, без тиску та шок-контенту.</p>
         <ul class="principles">
@@ -403,6 +414,7 @@
     <div class="wrap footer-row">
       <p>© 2026 ЕкоСлід Пам'яті</p>
       <p><a href="#method">Методологія</a> · <a href="#about">Про проєкт</a></p>
+      <p class="credits">Ілюстрації: <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">Fluent Emoji</a> © Microsoft (MIT), іконки: <a href="https://github.com/phosphor-icons/core" target="_blank" rel="noopener">Phosphor Icons</a> (MIT).</p>
     </div>
   </footer>
 
