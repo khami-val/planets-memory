@@ -67,46 +67,40 @@
   }
   function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
   var GREENS = ["#8fa98f", "#7f9a83", "#9db59a", "#6f8b73", "#a9bfa3"];
-  var SPRITE = "/img/sprite.svg#fe-";
-  // Іконка зі спрайта: x, y = центр нижнього краю
-  function icon(parent, name, x, y, size, cls) {
-    var u = el("use", { href: SPRITE + name, x: x - size / 2, y: y - size, width: size, height: size }, parent);
-    if (cls) u.setAttribute("class", cls);
-    return u;
+
+  function heroTree(g, x, y, r, rand, cls, delay) {
+    var t = el("g", { "class": cls, style: "animation-delay:" + delay + "s" }, g);
+    el("rect", { x: x - 2, y: y - 2, width: 4, height: r * 1.2 + 2, fill: "#8a7660", rx: 1.5 }, t);
+    var c = el("g", { "class": "crown", style: "animation-delay:" + (-rand() * 6).toFixed(2) + "s" }, t);
+    el("circle", { cx: x, cy: y - r * 0.35, r: r, fill: GREENS[Math.floor(rand() * 5)] }, c);
+    el("circle", { cx: x - r * 0.55, cy: y + r * 0.05, r: r * 0.68, fill: GREENS[Math.floor(rand() * 5)], opacity: 0.92 }, c);
+    el("circle", { cx: x + r * 0.5, cy: y + r * 0.1, r: r * 0.55, fill: GREENS[Math.floor(rand() * 5)], opacity: 0.9 }, c);
+    return t;
   }
 
   function initHero() {
     var svg = $("hero-svg"), rand = rng(7);
     var defs = el("defs", {}, svg);
     var gr = el("linearGradient", { id: "hg", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
-    el("stop", { offset: "0", "stop-color": "#2f5540" }, gr);
+    el("stop", { offset: "0", "stop-color": "#2c4f3b" }, gr);
     el("stop", { offset: "1", "stop-color": "#203a2c" }, gr);
-    icon(el("g", { "class": "h-sun" }, svg), "sun", 330, 86, 54);
-    el("ellipse", { cx: 200, cy: 236, rx: 196, ry: 84, fill: "url(#hg)" }, svg);
-    el("ellipse", { cx: 200, cy: 236, rx: 196, ry: 84, fill: "none", stroke: "rgba(201,163,90,.25)", "stroke-dasharray": "2 6" }, svg);
+    el("ellipse", { cx: 200, cy: 230, rx: 196, ry: 86, fill: "url(#hg)" }, svg);
+    el("ellipse", { cx: 200, cy: 230, rx: 196, ry: 86, fill: "none", stroke: "rgba(201,163,90,.25)", "stroke-dasharray": "2 6" }, svg);
     var pts = [];
-    for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) pts.push([84 + c * 58 - r * 12 + (r % 2) * 8, 196 + r * 36]);
+    for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) {
+      pts.push([92 + c * 54 - r * 10 + (r % 2) * 6, 182 + r * 34]);
+    }
     var slabs = el("g", {}, svg);
     pts.forEach(function (p, i) {
       var s = el("g", { "class": "h-slab", style: "animation-delay:" + (0.6 + i * 0.07).toFixed(2) + "s" }, slabs);
-      el("rect", { x: p[0] - 18, y: p[1] - 4, width: 36, height: 12, rx: 2, fill: "#8b908a" }, s);
-      icon(s, "headstone", p[0], p[1] + 2, 30);
+      el("rect", { x: p[0] - 18, y: p[1] - 6, width: 36, height: 16, rx: 2, fill: "#8b908a" }, s);
+      el("rect", { x: p[0] - 9, y: p[1] - 22, width: 18, height: 17, rx: 5, fill: "#6e736d" }, s);
     });
     var trees = el("g", {}, svg);
     pts.forEach(function (p, i) {
-      var g = el("g", { "class": "h-tree", style: "animation-delay:" + (1.7 + i * 0.09).toFixed(2) + "s" }, trees);
-      var kind = i % 3 === 1 ? "evergreen-tree" : "deciduous-tree";
-      icon(el("g", { "class": "crown", style: "animation-delay:" + (-rand() * 6).toFixed(2) + "s" }, g), kind, p[0] + (rand() - 0.5) * 8, p[1] + 8, 40 + rand() * 18);
+      heroTree(trees, p[0] + (rand() - 0.5) * 8, p[1] + 6, 11 + rand() * 9, rand, "h-tree", (1.7 + i * 0.09).toFixed(2));
     });
-    var flowers = ["blossom", "tulip", "herb", "sunflower", "seedling"];
-    for (var f = 0; f < 14; f++) {
-      var fx = 40 + rand() * 320, fy = 170 + rand() * 140;
-      if (Math.pow((fx - 200) / 186, 2) + Math.pow((fy - 236) / 76, 2) > 1) continue;
-      icon(el("g", { "class": "h-tree", style: "animation-delay:" + (3 + f * 0.12).toFixed(2) + "s" }, svg), flowers[f % 5], fx, fy, 14 + rand() * 6);
-    }
-    icon(el("g", { "class": "h-fly h-fly-a" }, svg), "butterfly", 120, 130, 22);
-    icon(el("g", { "class": "h-fly h-fly-b" }, svg), "butterfly", 270, 150, 18);
-    for (var m = 0; m < 12; m++) {
+    for (var m = 0; m < 14; m++) {
       el("circle", { "class": "h-mote", cx: 60 + rand() * 280, cy: 140 + rand() * 120, r: 1 + rand() * 1.4, fill: "#E9CF96", style: "animation-delay:" + (3 + rand() * 9).toFixed(2) + "s" }, svg);
     }
   }
@@ -116,7 +110,7 @@
     var box = $("scenario-options");
     box.innerHTML = D.scenarios.map(function (s) {
       return "<label class=\"opt\"><input type=\"radio\" name=\"scenario\" value=\"" + s.id + "\"" + (s.id === state.id ? " checked" : "") + ">" +
-        "<span class=\"chip\"><svg class=\"opt-ic\" aria-hidden=\"true\"><use href=\"" + SPRITE + s.icon + "\"/></svg><span class=\"txt\"><span class=\"short\">" + s.chip + "</span><span class=\"full\">" + s.name + "</span><span class=\"tagline\">" + s.tagline + "</span></span></span></label>";
+        "<span class=\"chip\"><span class=\"short\">" + s.chip + "</span><span class=\"full\">" + s.name + "</span><span class=\"tagline\">" + s.tagline + "</span></span></label>";
     }).join("");
     box.addEventListener("change", function (e) {
       if (e.target.name === "scenario") { state.id = e.target.value; render(); }
@@ -260,12 +254,13 @@
   }
 
   /* ---------- Simulator ---------- */
-  function tree(g, x, y, r, rand, kind) {
+  function tree(g, x, y, r, rand) {
     var t = el("g", { "class": "tree" }, g);
-    icon(t, kind || (rand() < 0.3 ? "evergreen-tree" : "deciduous-tree"), x, y + r * 1.1, r * 2.8);
+    el("rect", { x: x - 1.5, y: y - 1, width: 3, height: r * 1.1 + 1, fill: "#8a7660", rx: 1 }, t);
+    el("circle", { cx: x, cy: y - r * 0.25, r: r, fill: GREENS[Math.floor(rand() * 5)] }, t);
+    el("circle", { cx: x - r * 0.5, cy: y + r * 0.05, r: r * 0.65, fill: GREENS[Math.floor(rand() * 5)], opacity: 0.9 }, t);
     return t;
   }
-  function plant(g, name, x, y, size) { var t = el("g", { "class": "tree" }, g); icon(t, name, x, y, size); return t; }
   function grass(g, rand, n, color) {
     for (var i = 0; i < n; i++) {
       var x = rand() * 360, y = 30 + rand() * 190;
@@ -284,7 +279,7 @@
       for (var r = 0; r < 4; r++) for (var c = 0; c < 7; c++) {
         var x = 14 + c * 48, y = 16 + r * 50, s = el("g", { "class": "slab" }, g);
         el("rect", { x: x, y: y + 12, width: 38, height: 30, fill: "#c3c6c0", stroke: "#a9aca6", "stroke-width": 1, rx: 1 }, s);
-        icon(s, "headstone", x + 19, y + 18, 24);
+        el("rect", { x: x + 9, y: y, width: 20, height: 14, fill: "#8d918b", rx: 3 }, s);
       }
     } },
     columbarium: { text: "Прах займає компактну нішу. Решта ділянки може лишатися газоном.", draw: function (g, rand) {
@@ -298,17 +293,13 @@
     meadow: { text: "Без бетону й надгробків ділянка лишається лугом, а позначки стоять урівень із землею.", draw: function (g, rand) {
       bg(g, "#d7e3cd"); grass(g, rand, 220, "#9cb594"); flowers(g, rand, 70);
       for (var i = 0; i < 12; i++) el("ellipse", { cx: 30 + (i % 6) * 55 + rand() * 10, cy: 60 + Math.floor(i / 6) * 90 + rand() * 20, rx: 5, ry: 2.5, fill: "#c9c8bd" }, g);
-      var fl = ["blossom", "tulip", "sunflower", "herb"];
-      for (var k = 0; k < 16; k++) plant(g, fl[k % 4], 16 + rand() * 328, 40 + rand() * 175, 12 + rand() * 6);
       tree(g, 70, 120, 15, rand); tree(g, 200, 70, 13, rand); tree(g, 300, 150, 16, rand); tree(g, 140, 200, 11, rand);
-      icon(g, "butterfly", 250, 60, 16, "sim-fly");
     } },
     park: { text: "Кістковий мінерал повертають родині. Землю під поховання не відводять, простір лишається парком.", draw: function (g, rand) {
       bg(g, "#dde7d6"); grass(g, rand, 120, "#a9bfa3");
       el("path", { d: "M0 160 C 90 120, 160 200, 360 110", stroke: "#e2ddcf", "stroke-width": 14, fill: "none" }, g);
       el("circle", { cx: 250, cy: 60, r: 22, fill: "#cfdfe0" }, g); el("circle", { cx: 250, cy: 60, r: 14, fill: "#dfeaea" }, g);
       tree(g, 60, 70, 18, rand); tree(g, 140, 100, 12, rand); tree(g, 320, 190, 16, rand); tree(g, 110, 200, 12, rand);
-      plant(g, "blossom", 200, 150, 14); plant(g, "tulip", 220, 160, 14); icon(g, "dove", 290, 40, 22, "sim-fly");
     } },
     garden: { text: "З одного тіла утворюється ≈0,76 м³ ґрунту. Він повертається в сад або в лісовідновлення.", draw: function (g, rand) {
       bg(g, "#dfe6d6");
@@ -316,8 +307,8 @@
         var y = 22 + r * 50;
         el("rect", { x: 16, y: y, width: 328, height: 30, fill: "#c4ad92", rx: 12 }, g);
         for (var i = 0; i < 18; i++) {
-          var x = 26 + i * 18 + rand() * 4;
-          plant(g, (i + r) % 7 === 3 ? "mushroom" : (i % 3 ? "seedling" : "herb"), x, y + 26, 14 + rand() * 6);
+          var x = 30 + i * 17 + rand() * 4, h = 6 + rand() * 10, p = el("g", { "class": "tree" }, g);
+          el("path", { d: "M" + x + " " + (y + 22) + "q -6 -" + h + " 0 -" + (h + 4) + " q 6 " + (h / 2) + " 0 " + (h + 4), fill: GREENS[i % 5] }, p);
         }
       }
     } },
@@ -326,7 +317,7 @@
       for (var r = 0; r < 4; r++) for (var c = 0; c < 6; c++) {
         var x = 30 + c * 60 + (r % 2) * 25 + rand() * 10, y = 40 + r * 50 + rand() * 8;
         tree(g, x, y, 13 + rand() * 9, rand);
-        plant(g, "seedling", x + 12, y + 20, 9);
+        el("rect", { x: x + 7, y: y + 14, width: 6, height: 3, fill: "#b9a993", rx: 1 }, g);
       }
     } }
   };
@@ -436,7 +427,7 @@
           Array.prototype.forEach.call(box.querySelectorAll("[data-a]"), function (x) {
             x.disabled = true; x.classList.add((x.dataset.a === "1") === q.a ? "right" : "wrong");
           });
-          $("q-after").innerHTML = "<div class=\"q-why\"><span class=\"verdict\"><svg class=\"q-ic\" aria-hidden=\"true\"><use href=\"/img/sprite.svg#ph-" + (ok ? "check-bold" : "x-bold") + "\"/></svg>" + (ok ? "Так! " : "Насправді ні. ") + (q.a ? "Це правда." : "Це міф.") + "</span>" +
+          $("q-after").innerHTML = "<div class=\"q-why\"><span class=\"verdict\">" + (ok ? "Так! " : "Насправді ні. ") + (q.a ? "Це правда." : "Це міф.") + "</span>" +
             q.why + " <span class=\"small muted\">Джерело: " + srcLinks(q.src) + ".</span></div>" +
             "<button type=\"button\" class=\"btn btn-primary q-next\" id=\"q-next\">" + (i + 1 < Q.length ? "Далі" : "Результат") + "</button>";
           $("q-next").focus();
